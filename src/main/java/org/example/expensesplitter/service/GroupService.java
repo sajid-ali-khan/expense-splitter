@@ -55,4 +55,9 @@ public class GroupService {
         if (!userRepository.existsById(ownerId)) return null;
         return groupRepository.findAllGroupsByOwnerId(ownerId);
     }
+
+    public Object getSettlementOfMemberForGroup(int memberId, int id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getSettlementOfMemberForGroup'");
+    }
 }
