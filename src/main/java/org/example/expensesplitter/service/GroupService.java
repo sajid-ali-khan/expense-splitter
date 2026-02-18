@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.example.expensesplitter.dtos.CreateGroupRequest;
+import org.example.expensesplitter.dtos.GroupOverviewResponse;
 import org.example.expensesplitter.dtos.GroupResponse;
 import org.example.expensesplitter.entity.Group;
 import org.example.expensesplitter.entity.Member;
@@ -48,5 +49,10 @@ public class GroupService {
         var history = groupRepository.findAllExpenesById(id);
 
         return new GroupResponse(group.getName(), totalSpent, members, history);
+    }
+
+    public List<GroupOverviewResponse> getAllGroupsByOwnerId(int ownerId){
+        if (!userRepository.existsById(ownerId)) return null;
+        return groupRepository.findAllGroupsByOwnerId(ownerId);
     }
 }

@@ -3,6 +3,7 @@ package org.example.expensesplitter.repository;
 import java.util.List;
 
 import org.example.expensesplitter.dtos.ExpenseResponse;
+import org.example.expensesplitter.dtos.GroupOverviewResponse;
 import org.example.expensesplitter.dtos.MemberResponse;
 import org.example.expensesplitter.entity.Group;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,5 +33,11 @@ public interface GroupRepository extends JpaRepository<Group, Integer> {
             where e.group.id = :groupId
             """)
     Double getTotalSpent(@Param("groupId") int groupId);
-}
 
+    @Query("""
+            select new org.example.expensesplitter.dtos.GroupOverviewResponse(g.id, g.name, g.active, g.createdAt, SIZE(g.members))
+			from Group g
+			where g.owner.id = :ownerId
+            """)
+	List<GroupOverviewResponse> findAllGroupsByOwnerId(@Param("ownerId") int ownerId);
+}
