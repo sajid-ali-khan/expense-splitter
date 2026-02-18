@@ -38,5 +38,5 @@ public class Expense {
     private Instant payedAt;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "expense")
-    private List<Debts> debts = new ArrayList<>();
+    private List<Debt> debts = new ArrayList<>();
 }
