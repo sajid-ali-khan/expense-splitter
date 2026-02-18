@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,9 +34,15 @@ public class Group {
     private boolean active;
     private Instant createdAt;
 
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "group")
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, mappedBy = "group")
     private List<Member> members = new ArrayList();
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "group")
     private List<Expense> expenses = new ArrayList<>();
+
+    @PrePersist
+    private void defaults(){
+        this.createdAt = Instant.now();
+        this.active = true;
+    }
 }

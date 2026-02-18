@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AuthController {
     private final UserService userService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public String sayHello() {
         return "Hello, World!";
     }
