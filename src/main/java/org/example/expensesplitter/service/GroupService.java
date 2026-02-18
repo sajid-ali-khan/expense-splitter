@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.example.expensesplitter.dtos.CreateGroupRequest;
+import org.example.expensesplitter.dtos.GroupResponse;
 import org.example.expensesplitter.entity.Group;
 import org.example.expensesplitter.entity.Member;
 import org.example.expensesplitter.repository.GroupRepository;
@@ -36,5 +37,16 @@ public class GroupService {
         newGroup.setMembers(members);
 
         groupRepository.save(newGroup);
+    }
+
+    public GroupResponse getById(int id) {
+        if (!groupRepository.existsById(id)) return null;
+        var group = groupRepository.findById(id).get();
+        Double totalSpent = groupRepository.getTotalSpent(id);
+        if (totalSpent == null) totalSpent = 0.0;
+        var members = groupRepository.findAllMembersById(id);
+        var history = groupRepository.findAllExpenesById(id);
+
+        return new GroupResponse(group.getName(), totalSpent, members, history);
     }
 }
